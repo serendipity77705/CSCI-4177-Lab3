@@ -2,11 +2,15 @@ import React, { useState, useMemo } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { apartments } from "../data/mockData";
+import { Link } from "react-router-dom";
 import "../css/dashboard.css";
 
+import NavBar from "../components/NavBar";
+
 function ApartmentCard({ apartment }) {
+    const navigate = useNavigate();
     return (
-        <div className="apartment-card">
+        <div className="apartment-card" onClick={() => navigate(`/apartments/${apartment.id}`)}>
             <img src={apartment.image} alt={apartment.name} />
             <div className="card-content">
                 <h3>{apartment.name}</h3>
@@ -16,6 +20,7 @@ function ApartmentCard({ apartment }) {
                     <span className="stars">{'★'.repeat(Math.floor(apartment.rating))}</span>
                     <span className="review-count">({apartment.reviewCount} reviews)</span>
                 </div>
+
                 {apartment.tags && apartment.tags.length > 0 && (
                     <div className="tags">
                         {apartment.tags.map((tag, idx) => (
@@ -35,27 +40,29 @@ function Dashboard() {
     const [sortBy, setSortBy] = useState("name");
     const [filterNeighbourhood, setFilterNeighbourhood] = useState("all");
 
-    const initials = (user.name.split(' ')[0][0] + user.name.split(' ')[user.name.split(' ').length - 1][0]).toUpperCase();
-
-    function handleLogout() {
-        logout();
-        navigate("/signin");
+    if (!user) {
+        return null;
     }
 
-    const neighborhoods = ["all", ...new Set(apartments.map(a => a.neighbourhood))];
+    const handleLogout = () => {
+        logout();
+        navigate("/signin");
+    };
+
+    const neighborhoods = ["all", ...new Set(apartments.map((a) => a.neighbourhood))];
 
     const filteredAndSorted = useMemo(() => {
         let result = apartments;
 
         if (searchTerm) {
-            result = result.filter(apt =>
+            result = result.filter((apt) =>
                 apt.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 apt.address.toLowerCase().includes(searchTerm.toLowerCase())
             );
         }
 
         if (filterNeighbourhood !== "all") {
-            result = result.filter(apt => apt.neighbourhood === filterNeighbourhood);
+            result = result.filter((apt) => apt.neighbourhood === filterNeighbourhood);
         }
 
         if (sortBy === "name") {
@@ -72,24 +79,7 @@ function Dashboard() {
     return (
         <>
         <div className="dashboard-page">
-
-            <nav className="navbar">
-                <div className="navbar-left">
-                    <h1 className="product-name">TenantTrails</h1>
-                    <input
-                        type="text"
-                        placeholder="🔍 Search by name or address..."
-                        className="search-input"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                </div>
-                <div className="navbar-right">
-                    <span className="initials">{initials}</span>
-                    <span className="username">{user.name.split(' ')[0]}</span>
-                    <button className="logout-btn" onClick={handleLogout}>Sign Out</button>
-                </div>
-            </nav>
+            <NavBar onSearch={setSearchTerm} />
             
             <div className="dashboard-content">
             <div className="dash-header">
@@ -98,7 +88,7 @@ function Dashboard() {
             </div>
             <div className="data">
                 <div className="data-item">
-                    <span className="number">5 </span><span className="label">apartments</span>
+                    <span className="number">{filteredAndSorted.length} </span><span className="label">apartments</span>
                 </div>
                 <div className="data-item">
                     <span className="number">13 </span><span className="label">reviews</span>
@@ -106,7 +96,6 @@ function Dashboard() {
                 <div className="data-item">
                     <span className="number">4 </span><span className="label">neightbourhoods</span>
                 </div>
-
             </div>
             <div className="dashboard-container">
                 <div className="controls">
@@ -115,7 +104,7 @@ function Dashboard() {
                         value={filterNeighbourhood}
                         onChange={(e) => setFilterNeighbourhood(e.target.value)}
                     >
-                        {neighborhoods.map(hood => (
+                        {neighborhoods.map((hood) => (
                             <option key={hood} value={hood}>
                                 {hood === "all" ? "All Neighbourhoods" : hood}
                             </option>
@@ -126,15 +115,20 @@ function Dashboard() {
                         value={sortBy}
                         onChange={(e) => setSortBy(e.target.value)}
                     >
-                        <option value="name">Highest Rating</option>
-                        <option value="rating">Highest Reviews</option>
+                        <option value="name">Name</option>
+                        <option value="rating">Highest Rating</option>
+                        <option value="reviews">Most Reviews</option>
                     </select>
                 </div>
 
                 <div className="apartments-grid">
                     {filteredAndSorted.length > 0 ? (
-                        filteredAndSorted.map(apartment => (
-                            <ApartmentCard key={apartment.id} apartment={apartment} />
+                        filteredAndSorted.map((apartment) => (
+                            <Link key={apartment.id} to={`/apartments/${apartment.id}`}>
+                                <div className="apt-card">
+                                    <ApartmentCard apartment={apartment} />
+                                </div>
+                            </Link>
                         ))
                     ) : (
                         <p className="no-results">No apartments found</p>

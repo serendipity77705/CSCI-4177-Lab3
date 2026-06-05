@@ -6,6 +6,8 @@ import SignIn from './pages/Login'
 import CreateAccount from './pages/Signup'
 import Dashboard from './pages/Dashboard'
 import ProtectedRoute from './components/ProtectedRoute'
+import Apartment from './pages/Apartment'
+import Profile from './pages/Profile'
 import { AuthProvider } from './context/AuthContext'
 
 function App() {
@@ -21,6 +23,12 @@ function App() {
               <Dashboard />
             </ProtectedRoute>
           } />
+          <Route path="/apartments/:id" element={
+            <ProtectedRoute>
+              <Apartment />
+            </ProtectedRoute>
+          } />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

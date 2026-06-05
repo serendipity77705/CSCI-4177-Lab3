@@ -1,0 +1,23 @@
+@import "variables.css";
+.rating-value {
+    font-size: 0.8rem;
+    color: var(--gray-writing);
+    margin-bottom: 16px;
+}
+
+.stat-number {
+    color: var(--blue);
+    font-size: large;
+    font-weight: bold;
+}
+
+.profile-stats {
+    display: flex;
+    gap: 24px;
+}
+
+.profile-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

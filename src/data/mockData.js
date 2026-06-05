@@ -23,7 +23,7 @@ const apartments = [
     neighbourhood: "Spring Garden",
     rating: 5.0,
     reviewCount: 1,
-    tags: [],
+    tags: ["nice location", "quiet"],
     image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600",
     landlord: "Killam Properties",
     numUnits: 88,
@@ -116,11 +116,27 @@ const reviews = [
     ]
   },
   {
+    aptId: 3,
+    userName: "Matt Turner",
+    rating: 4,
+    review: "Not bad at all, I quite enjoyed my time. It was always clean and the pest control was good. Walking distance from a bus stop and convenience store, and parking was really nice. Only downside was noise isolation could be better, I could hear my upstairs neighbour walking around and sometimes the music. Overall a good experience.",
+    date: "2026-01-29",
+    replies: []
+  },
+  {
     aptId: 4,
     userName: "Malk Daboor",
     rating: 4,
     review: "Great views and modern design. However, the elevator is always breaking down and management is unresponsive to maintenance requests. Security is also a concern with multiple break-ins reported.",
     date: "2026-04-10",
+    replies: []
+  },
+  {
+    aptId: 5,
+    userName: "Malk Daboor",
+    rating: 5,
+    review: "I don't actually live here but I just wanted to leave a review to boost the ratings :)",
+    date: "2026-06-02",
     replies: []
   }
 ]

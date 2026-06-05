@@ -29,7 +29,7 @@ function EditModal({ review, onClose, onSave }) {
   }
 
   return (
-    <div className="modal" onClick={onClose}>
+    <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
           <h2>Edit Review</h2>
@@ -91,15 +91,13 @@ export default function Profile() {
   return (
     <>
       <NavBar onSearch={setSearchTerm} />
-      <div className="profile-page">
-
-        <button className="back-link" onClick={() => navigate("/dashboard")}>
+      <button className="back-link" onClick={() => navigate("/dashboard")}>
           ← Back to apartments
         </button>
-
+      <div className="profile-page">
         <div className="profile-header">
+          <div className="initials">{initials}</div>
           <div className="profile-header-left">
-            <div className="profile-avatar">{initials}</div>
             <div>
               <h1>{user?.name}</h1>
               <p>{user?.email}</p>
@@ -133,16 +131,16 @@ export default function Profile() {
                   <StarRating rating={r.rating} />
                   <p>{r.review?.slice(0, 120)}{r.review?.length > 120 ? "..." : ""}</p>
                 </div>
-                <div className="profile-review-actions">
-                  <button className="action-btn view-btn"
+                <div className="profile-buttons">
+                  <button className="view-button button"
                     onClick={() => navigate(`/apartments/${r.aptId}`)}>
                     View
                   </button>
-                  <button className="action-btn edit-btn"
+                  <button className="edit-button button"
                     onClick={() => setEditingReview(r)}>
                     Edit
                   </button>
-                  <button className="action-btn delete-btn"
+                  <button className="delete-button button"
                     onClick={() => handleDelete(r)}>
                     Delete
                   </button>
@@ -153,7 +151,6 @@ export default function Profile() {
         )}
       </div>
 
-      {/* Edit modal */}
       {editingReview && (
         <EditModal
           review={editingReview}

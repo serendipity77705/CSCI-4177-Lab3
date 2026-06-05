@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import "../css/authentication.css";
 import validUsers from '../data/mockData';
 
-function validate(email, password) {
+export function validate(email, password) {
     const e = {};
     if (!email.includes("@")) e.email = "Invalid email";
     if (password.length < 6) e.password = "Password is too short";

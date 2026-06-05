@@ -97,7 +97,6 @@ export default function Profile() {
           ← Back to apartments
         </button>
 
-        {/* Profile header card */}
         <div className="profile-header">
           <div className="profile-header-left">
             <div className="profile-avatar">{initials}</div>
@@ -120,7 +119,6 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* Reviews list */}
         <h2 className="section-title">Your Reviews</h2>
 
         {myReviews.length === 0 ? (
